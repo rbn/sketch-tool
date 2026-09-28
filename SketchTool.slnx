@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/SketchTool.Api/SketchTool.Api.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SketchTool.IntegrationTests/SketchTool.IntegrationTests.csproj" />
+    <Project Path="tests/SketchTool.UnitTests/SketchTool.UnitTests.csproj" />
+  </Folder>
+</Solution>
