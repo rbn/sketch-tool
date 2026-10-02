@@ -81,19 +81,19 @@ function ReferenceImageWorkspace() {
     setPanX(clampedPanX);
     setPanY(clampedPanY);
 
-    console.log(
-      proposedPanX +
-        "," +
-        proposedPanY +
-        "," +
-        imageRect?.width +
-        "," +
-        imageRect?.height +
-        "," +
-        maxPanX +
-        "," +
-        maxPanY,
-    );
+    // console.log(
+    //   proposedPanX +
+    //     "," +
+    //     proposedPanY +
+    //     "," +
+    //     imageRect?.width +
+    //     "," +
+    //     imageRect?.height +
+    //     "," +
+    //     maxPanX +
+    //     "," +
+    //     maxPanY,
+    // );
 
     // console.log("isDragging: " + isDragging.current);
     // console.log("pan: " + panStartX.current + " " + panStartY.current);
