@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-function ReferenceImageWorkspace() {
+function ImageWorkspace() {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [zoom, setZoom] = useState(100);
   const [isFlipped, setIsFlipped] = useState(false);
@@ -100,7 +100,7 @@ function ReferenceImageWorkspace() {
     // console.log("event: " + event.clientX + " " + event.clientY);
   }
 
-  function handlePointerEnded(event: React.PointerEvent<HTMLImageElement>) {
+  function handlePointerEnded() {
     isDragging.current = false;
   }
 
@@ -225,4 +225,4 @@ function ReferenceImageWorkspace() {
   );
 }
 
-export default ReferenceImageWorkspace;
+export default ImageWorkspace;
