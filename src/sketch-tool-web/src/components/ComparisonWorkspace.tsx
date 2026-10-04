@@ -1,5 +1,6 @@
 import { useState } from "react";
 import SideBySideView from "./SideBySideView";
+import OverlayView from "./OverlayView";
 
 function ComparisonWorkspace() {
   const [referenceImageUrl, setReferenceImageUrl] = useState<string | null>(
@@ -49,7 +50,14 @@ function ComparisonWorkspace() {
           onDrawingImageSelected={setDrawingImageUrl}
         />
       )}
-      {mode === "overlay" && <span>Overlay Mode Area</span>}
+      {mode === "overlay" && (
+        <OverlayView
+          referenceImageUrl={referenceImageUrl}
+          onReferenceImageSelected={setReferenceImageUrl}
+          drawingImageUrl={drawingImageUrl}
+          onDrawingImageSelected={setDrawingImageUrl}
+        />
+      )}
     </div>
   );
 }
