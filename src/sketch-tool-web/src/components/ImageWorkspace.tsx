@@ -1,7 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 
-function ImageWorkspace() {
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+type ImageWorkspaceProps = {
+  imageType: "reference" | "drawing";
+  imageUrl: string | null;
+  onImageSelected: (imageUrl: string) => void;
+};
+
+function ImageWorkspace({
+  imageType,
+  imageUrl,
+  onImageSelected,
+}: ImageWorkspaceProps) {
   const [zoom, setZoom] = useState(100);
   const [isFlipped, setIsFlipped] = useState(false);
   const [isGrayscale, setIsGrayscale] = useState(false);
@@ -16,6 +25,7 @@ function ImageWorkspace() {
   const viewportRef = useRef<HTMLDivElement>(null);
   const minimumVisible = 100;
   const [isGridEnabled, setIsGridEnabled] = useState(false);
+  const imageLabel = imageType === "reference" ? "Reference" : "Drawing";
 
   useEffect(() => {
     return () => {
@@ -33,18 +43,16 @@ function ImageWorkspace() {
     }
 
     const url = URL.createObjectURL(file);
-    setImageUrl(url);
+    onImageSelected(url);
     setZoom(100);
     setIsGrayscale(false);
     setIsFlipped(false);
     setPanX(0);
     setPanY(0);
+    setIsGridEnabled(false);
   }
 
   function handlePointerDown(event: React.PointerEvent<HTMLImageElement>) {
-    // console.log(imageRef.current?.getBoundingClientRect());
-    // console.log(viewportRef.current?.getBoundingClientRect());
-
     isDragging.current = true;
     event.currentTarget.setPointerCapture(event.pointerId);
 
@@ -71,33 +79,15 @@ function ImageWorkspace() {
     }
 
     const maxPanX =
-      viewportRect?.width / 2 + imageRect?.width / 2 - minimumVisible;
+      viewportRect.width / 2 + imageRect.width / 2 - minimumVisible;
     const maxPanY =
-      viewportRect?.height / 2 + imageRect?.height / 2 - minimumVisible;
+      viewportRect.height / 2 + imageRect.height / 2 - minimumVisible;
 
     const clampedPanX = Math.max(-maxPanX, Math.min(proposedPanX, maxPanX));
     const clampedPanY = Math.max(-maxPanY, Math.min(proposedPanY, maxPanY));
 
     setPanX(clampedPanX);
     setPanY(clampedPanY);
-
-    // console.log(
-    //   proposedPanX +
-    //     "," +
-    //     proposedPanY +
-    //     "," +
-    //     imageRect?.width +
-    //     "," +
-    //     imageRect?.height +
-    //     "," +
-    //     maxPanX +
-    //     "," +
-    //     maxPanY,
-    // );
-
-    // console.log("isDragging: " + isDragging.current);
-    // console.log("pan: " + panStartX.current + " " + panStartY.current);
-    // console.log("event: " + event.clientX + " " + event.clientY);
   }
 
   function handlePointerEnded() {
@@ -106,7 +96,7 @@ function ImageWorkspace() {
 
   return (
     <section>
-      <h2>Reference Image</h2>
+      <h2>{imageLabel} Image</h2>
 
       <input type="file" accept="image/*" onChange={handleImageSelected} />
       {imageUrl && (
@@ -176,10 +166,9 @@ function ImageWorkspace() {
                 transform: `translate(${panX}px, ${panY}px) scale(${(zoom / 100) * (isFlipped ? -1 : 1)}, ${zoom / 100})`,
               }}
             >
-              {" "}
               <img
                 src={imageUrl}
-                alt="Reference"
+                alt={`${imageLabel} image`}
                 ref={imageRef}
                 style={{
                   maxWidth: "100%",
