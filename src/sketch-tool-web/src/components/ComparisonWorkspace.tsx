@@ -44,9 +44,9 @@ function ComparisonWorkspace() {
       {mode === "side-by-side" && (
         <SideBySideView
           referenceImageUrl={referenceImageUrl}
-          referenceImageCallback={setReferenceImageUrl}
+          onReferenceImageSelected={setReferenceImageUrl}
           drawingImageUrl={drawingImageUrl}
-          drawingImageCallback={setDrawingImageUrl}
+          onDrawingImageSelected={setDrawingImageUrl}
         />
       )}
       {mode === "overlay" && <span>Overlay Mode Area</span>}

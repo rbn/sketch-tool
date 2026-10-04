@@ -2,28 +2,28 @@ import ImageWorkspace from "./ImageWorkspace";
 
 type SideBySideViewProps = {
   referenceImageUrl: string | null;
-  referenceImageCallback: () => void;
+  onReferenceImageSelected: (imageUrl: string) => void;
   drawingImageUrl: string | null;
-  drawingImageCallback: () => void;
+  onDrawingImageSelected: (imageUrl: string) => void;
 };
 
 function SideBySideView({
   referenceImageUrl,
-  referenceImageCallback,
+  onReferenceImageSelected,
   drawingImageUrl,
-  drawingImageCallback,
+  onDrawingImageSelected,
 }: SideBySideViewProps) {
   return (
     <>
       <ImageWorkspace
         imageType="reference"
         imageUrl={referenceImageUrl}
-        onImageSelected={referenceImageCallback}
+        onImageSelected={onReferenceImageSelected}
       />
       <ImageWorkspace
         imageType="drawing"
         imageUrl={drawingImageUrl}
-        onImageSelected={drawingImageCallback}
+        onImageSelected={onDrawingImageSelected}
       />
     </>
   );
