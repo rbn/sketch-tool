@@ -53,9 +53,7 @@ function ComparisonWorkspace() {
       {mode === "overlay" && (
         <OverlayView
           referenceImageUrl={referenceImageUrl}
-          onReferenceImageSelected={setReferenceImageUrl}
           drawingImageUrl={drawingImageUrl}
-          onDrawingImageSelected={setDrawingImageUrl}
         />
       )}
     </div>

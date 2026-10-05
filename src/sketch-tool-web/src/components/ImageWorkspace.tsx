@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import useImageTransform from "../hooks/useImageTransform";
 
 type ImageWorkspaceProps = {
   imageType: "reference" | "drawing";
@@ -11,7 +12,6 @@ function ImageWorkspace({
   imageUrl,
   onImageSelected,
 }: ImageWorkspaceProps) {
-  const [zoom, setZoom] = useState(100);
   const [isFlipped, setIsFlipped] = useState(false);
   const [isGrayscale, setIsGrayscale] = useState(false);
   const [panX, setPanX] = useState(0);
@@ -26,6 +26,7 @@ function ImageWorkspace({
   const minimumVisible = 100;
   const [isGridEnabled, setIsGridEnabled] = useState(false);
   const imageLabel = imageType === "reference" ? "Reference" : "Drawing";
+  const { zoom, setZoom } = useImageTransform();
 
   useEffect(() => {
     return () => {

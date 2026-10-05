@@ -25,20 +25,27 @@ function OverlayView({ referenceImageUrl, drawingImageUrl }: OverlayViewProps) {
         >
           <img
             src={referenceImageUrl}
-            alt="Reference image"
+            alt="reference image"
             style={{
               maxWidth: "100%",
               maxHeight: "100%",
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
             }}
           />
 
           <img
             src={drawingImageUrl}
-            alt="Reference image"
+            alt="drawing image"
             style={{
               maxWidth: "100%",
               maxHeight: "100%",
               position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
               opacity: 0.5,
             }}
           />
