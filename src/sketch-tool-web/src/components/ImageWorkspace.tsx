@@ -12,21 +12,26 @@ function ImageWorkspace({
   imageUrl,
   onImageSelected,
 }: ImageWorkspaceProps) {
-  const [isFlipped, setIsFlipped] = useState(false);
   const [isGrayscale, setIsGrayscale] = useState(false);
-  const [panX, setPanX] = useState(0);
-  const [panY, setPanY] = useState(0);
-  const isDragging = useRef(false);
-  const pointerStartX = useRef(0);
-  const pointerStartY = useRef(0);
-  const panStartX = useRef(0);
-  const panStartY = useRef(0);
   const imageRef = useRef<HTMLImageElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
-  const minimumVisible = 100;
   const [isGridEnabled, setIsGridEnabled] = useState(false);
   const imageLabel = imageType === "reference" ? "Reference" : "Drawing";
-  const { zoom, setZoom } = useImageTransform();
+  const {
+    zoom,
+    zoomIn,
+    zoomOut,
+    resetZoom,
+    panX,
+    panY,
+    resetPan,
+    isFlipped,
+    flip,
+    resetFlip,
+    handlePointerDown,
+    handlePointerMove,
+    handlePointerEnded,
+  } = useImageTransform({ imageRef, viewportRef });
 
   useEffect(() => {
     return () => {
@@ -45,54 +50,11 @@ function ImageWorkspace({
 
     const url = URL.createObjectURL(file);
     onImageSelected(url);
-    setZoom(100);
+    resetZoom();
     setIsGrayscale(false);
-    setIsFlipped(false);
-    setPanX(0);
-    setPanY(0);
+    resetFlip();
+    resetPan();
     setIsGridEnabled(false);
-  }
-
-  function handlePointerDown(event: React.PointerEvent<HTMLImageElement>) {
-    isDragging.current = true;
-    event.currentTarget.setPointerCapture(event.pointerId);
-
-    pointerStartX.current = event.clientX;
-    pointerStartY.current = event.clientY;
-
-    panStartX.current = panX;
-    panStartY.current = panY;
-  }
-
-  function handlePointerMove(event: React.PointerEvent<HTMLImageElement>) {
-    if (!isDragging.current) return;
-
-    const proposedPanX =
-      panStartX.current + (event.clientX - pointerStartX.current);
-    const proposedPanY =
-      panStartY.current + (event.clientY - pointerStartY.current);
-
-    const imageRect = imageRef.current?.getBoundingClientRect();
-    const viewportRect = viewportRef.current?.getBoundingClientRect();
-
-    if (!imageRect || !viewportRect) {
-      return;
-    }
-
-    const maxPanX =
-      viewportRect.width / 2 + imageRect.width / 2 - minimumVisible;
-    const maxPanY =
-      viewportRect.height / 2 + imageRect.height / 2 - minimumVisible;
-
-    const clampedPanX = Math.max(-maxPanX, Math.min(proposedPanX, maxPanX));
-    const clampedPanY = Math.max(-maxPanY, Math.min(proposedPanY, maxPanY));
-
-    setPanX(clampedPanX);
-    setPanY(clampedPanY);
-  }
-
-  function handlePointerEnded() {
-    isDragging.current = false;
   }
 
   return (
@@ -103,10 +65,7 @@ function ImageWorkspace({
       {imageUrl && (
         <div>
           <div>
-            <button
-              onClick={() => setZoom(Math.max(75, zoom - 10))}
-              disabled={zoom <= 75}
-            >
+            <button onClick={zoomOut} disabled={zoom <= 75}>
               -
             </button>
 
@@ -114,11 +73,10 @@ function ImageWorkspace({
 
             <button
               onClick={() => {
-                setZoom(100);
+                resetZoom();
                 setIsGrayscale(false);
-                setIsFlipped(false);
-                setPanX(0);
-                setPanY(0);
+                resetFlip();
+                resetPan();
                 setIsGridEnabled(false);
               }}
 
@@ -134,13 +92,10 @@ function ImageWorkspace({
               Reset
             </button>
 
-            <button
-              onClick={() => setZoom(Math.min(200, zoom + 10))}
-              disabled={zoom >= 200}
-            >
+            <button onClick={zoomIn} disabled={zoom >= 200}>
               +
             </button>
-            <button onClick={() => setIsFlipped(!isFlipped)}>Flip</button>
+            <button onClick={flip}>Flip</button>
             <button onClick={() => setIsGrayscale(!isGrayscale)}>
               Grayscale
             </button>
