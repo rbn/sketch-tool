@@ -1,4 +1,4 @@
-import ReferenceImageWorkspace from "./components/ReferenceImageWorkspace";
+import ComparisonWorkspace from "./components/ComparisonWorkspace";
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
       }}
     >
       <h1>Welcome to Sketch Tool!</h1>
-      <ReferenceImageWorkspace />
+      <ComparisonWorkspace />
     </section>
   );
 }
