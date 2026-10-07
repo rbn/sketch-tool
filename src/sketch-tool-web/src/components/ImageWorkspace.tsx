@@ -40,7 +40,6 @@ function ImageWorkspace({
       return;
     }
 
-    // const url = URL.createObjectURL(file);
     onImageSelected(file);
     resetZoom();
     setIsGrayscale(false);

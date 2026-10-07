@@ -20,7 +20,7 @@ function ComparisonWorkspace() {
     }
   }
 
-  function handeCreateReferenceImageSelected(file: File) {
+  function handleReferenceImageSelected(file: File) {
     if (referenceUrlRef.current) URL.revokeObjectURL(referenceUrlRef.current);
 
     const newUrl = URL.createObjectURL(file);
@@ -71,7 +71,7 @@ function ComparisonWorkspace() {
       {mode === "side-by-side" && (
         <SideBySideView
           referenceImageUrl={referenceImageUrl}
-          onReferenceImageSelected={handeCreateReferenceImageSelected}
+          onReferenceImageSelected={handleReferenceImageSelected}
           drawingImageUrl={drawingImageUrl}
           onDrawingImageSelected={handleDrawingImageSelected}
         />
