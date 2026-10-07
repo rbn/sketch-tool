@@ -2,9 +2,9 @@ import ImageWorkspace from "./ImageWorkspace";
 
 type SideBySideViewProps = {
   referenceImageUrl: string | null;
-  onReferenceImageSelected: (imageUrl: string) => void;
+  onReferenceImageSelected: (file: File) => void;
   drawingImageUrl: string | null;
-  onDrawingImageSelected: (imageUrl: string) => void;
+  onDrawingImageSelected: (file: File) => void;
 };
 
 function SideBySideView({

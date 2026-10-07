@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import SideBySideView from "./SideBySideView";
 import OverlayView from "./OverlayView";
 
@@ -8,6 +8,8 @@ function ComparisonWorkspace() {
   );
   const [drawingImageUrl, setDrawingImageUrl] = useState<string | null>(null);
   const [mode, setMode] = useState<"side-by-side" | "overlay">("side-by-side");
+  const referenceUrlRef = useRef<string | null>(null);
+  const drawingUrlRef = useRef<string | null>(null);
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     if (
@@ -17,6 +19,30 @@ function ComparisonWorkspace() {
       setMode(event.target.value);
     }
   }
+
+  function handeCreateReferenceImageSelected(file: File) {
+    if (referenceUrlRef.current) URL.revokeObjectURL(referenceUrlRef.current);
+
+    const newUrl = URL.createObjectURL(file);
+    setReferenceImageUrl(newUrl);
+    referenceUrlRef.current = newUrl;
+  }
+
+  function handleDrawingImageSelected(file: File) {
+    if (drawingUrlRef.current) URL.revokeObjectURL(drawingUrlRef.current);
+
+    const newUrl = URL.createObjectURL(file);
+    setDrawingImageUrl(newUrl);
+    drawingUrlRef.current = newUrl;
+  }
+
+  useEffect(() => {
+    return () => {
+      [referenceUrlRef.current, drawingUrlRef.current].forEach((url) => {
+        if (url) URL.revokeObjectURL(url);
+      });
+    };
+  }, []);
 
   return (
     <div>
@@ -45,9 +71,9 @@ function ComparisonWorkspace() {
       {mode === "side-by-side" && (
         <SideBySideView
           referenceImageUrl={referenceImageUrl}
-          onReferenceImageSelected={setReferenceImageUrl}
+          onReferenceImageSelected={handeCreateReferenceImageSelected}
           drawingImageUrl={drawingImageUrl}
-          onDrawingImageSelected={setDrawingImageUrl}
+          onDrawingImageSelected={handleDrawingImageSelected}
         />
       )}
       {mode === "overlay" && (

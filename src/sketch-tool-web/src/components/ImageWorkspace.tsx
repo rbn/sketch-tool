@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import useImageTransform from "../hooks/useImageTransform";
 
 type ImageWorkspaceProps = {
   imageType: "reference" | "drawing";
   imageUrl: string | null;
-  onImageSelected: (imageUrl: string) => void;
+  onImageSelected: (file: File) => void;
 };
 
 function ImageWorkspace({
@@ -33,14 +33,6 @@ function ImageWorkspace({
     handlePointerEnded,
   } = useImageTransform({ imageRef, viewportRef });
 
-  useEffect(() => {
-    return () => {
-      if (imageUrl) {
-        URL.revokeObjectURL(imageUrl);
-      }
-    };
-  }, [imageUrl]);
-
   function handleImageSelected(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
 
@@ -48,8 +40,8 @@ function ImageWorkspace({
       return;
     }
 
-    const url = URL.createObjectURL(file);
-    onImageSelected(url);
+    // const url = URL.createObjectURL(file);
+    onImageSelected(file);
     resetZoom();
     setIsGrayscale(false);
     resetFlip();
