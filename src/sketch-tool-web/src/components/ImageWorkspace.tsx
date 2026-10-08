@@ -4,14 +4,9 @@ import useImageTransform from "../hooks/useImageTransform";
 type ImageWorkspaceProps = {
   imageType: "reference" | "drawing";
   imageUrl: string | null;
-  onImageSelected: (file: File) => void;
 };
 
-function ImageWorkspace({
-  imageType,
-  imageUrl,
-  onImageSelected,
-}: ImageWorkspaceProps) {
+function ImageWorkspace({ imageType, imageUrl }: ImageWorkspaceProps) {
   const [isGrayscale, setIsGrayscale] = useState(false);
   const imageRef = useRef<HTMLImageElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -33,26 +28,10 @@ function ImageWorkspace({
     handlePointerEnded,
   } = useImageTransform({ imageRef, viewportRef });
 
-  function handleImageSelected(event: React.ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-
-    if (!file) {
-      return;
-    }
-
-    onImageSelected(file);
-    resetZoom();
-    setIsGrayscale(false);
-    resetFlip();
-    resetPan();
-    setIsGridEnabled(false);
-  }
-
   return (
     <section>
       <h2>{imageLabel} Image</h2>
 
-      <input type="file" accept="image/*" onChange={handleImageSelected} />
       {imageUrl && (
         <div>
           <div>

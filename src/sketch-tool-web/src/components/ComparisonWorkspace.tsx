@@ -20,6 +20,26 @@ function ComparisonWorkspace() {
     }
   }
 
+  function handleReferenceFileLoaded(
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) {
+    const file = event.target.files?.[0];
+
+    if (!file) return;
+
+    handleReferenceImageSelected(file);
+  }
+
+  function handleDrawingFileUploaded(
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) {
+    const file = event.target.files?.[0];
+
+    if (!file) return;
+
+    handleDrawingImageSelected(file);
+  }
+
   function handleReferenceImageSelected(file: File) {
     if (referenceUrlRef.current) URL.revokeObjectURL(referenceUrlRef.current);
 
@@ -67,13 +87,24 @@ function ComparisonWorkspace() {
           />
           Overlay
         </label>
+        <div>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleReferenceFileLoaded}
+          />
+          <input
+            type="file"
+            accept="image/*"
+            aria-label="drawingImageLabel"
+            onChange={handleDrawingFileUploaded}
+          />
+        </div>
       </form>
       {mode === "side-by-side" && (
         <SideBySideView
           referenceImageUrl={referenceImageUrl}
-          onReferenceImageSelected={handleReferenceImageSelected}
           drawingImageUrl={drawingImageUrl}
-          onDrawingImageSelected={handleDrawingImageSelected}
         />
       )}
       {mode === "overlay" && (
