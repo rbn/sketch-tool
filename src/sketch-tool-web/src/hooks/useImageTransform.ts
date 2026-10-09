@@ -45,7 +45,7 @@ function useImageTransform({ imageRef, viewportRef }: ImageTransformOptions) {
 
   // Pointer Handlers
 
-  function handlePointerDown(event: React.PointerEvent<HTMLImageElement>) {
+  function handlePointerDown(event: React.PointerEvent<HTMLElement>) {
     isDragging.current = true;
     event.currentTarget.setPointerCapture(event.pointerId);
 
@@ -56,7 +56,7 @@ function useImageTransform({ imageRef, viewportRef }: ImageTransformOptions) {
     panStartY.current = panY;
   }
 
-  function handlePointerMove(event: React.PointerEvent<HTMLImageElement>) {
+  function handlePointerMove(event: React.PointerEvent<HTMLElement>) {
     if (!isDragging.current) return;
 
     const proposedPanX =
