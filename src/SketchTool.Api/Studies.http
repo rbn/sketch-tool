@@ -1,0 +1,7 @@
+﻿POST https://localhost:7209/api/studies
+Content-Type: application/json
+
+{
+  "name": "Portrait Study",
+  "mode": 1
+}
