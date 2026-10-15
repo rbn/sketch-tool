@@ -1,7 +1,12 @@
-﻿POST https://localhost:7209/api/studies
+﻿# @name createStudy
+POST https://localhost:7209/api/studies
 Content-Type: application/json
 
 {
   "name": "Portrait Study",
   "mode": 1
 }
+
+###
+
+GET https://localhost:7209/api/studies/{{createStudy.response.body.$.id}}

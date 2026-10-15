@@ -1,10 +1,18 @@
 ﻿using SketchTool.Api.Contracts;
 using SketchTool.Api.Models;
+using SketchTool.Api.Repositories;
 
 namespace SketchTool.Api.Services
 {
    public class StudyService : IStudyService
    {
+      private readonly IStudyRepository _repository;
+
+      public StudyService(IStudyRepository studyRepository)
+      {
+         _repository = studyRepository;
+      }
+
       public Task<Study> CreateAsync(CreateStudyRequest request)
       {
          var now = DateTimeOffset.UtcNow;
@@ -17,7 +25,12 @@ namespace SketchTool.Api.Services
             UpdatedAt = now,
             Mode = request.Mode
          };
-         return Task.FromResult(study);
+         return _repository.CreateAsync(study);
+      }
+      
+      public Task<Study?> GetByIdAsync(Guid studyId)
+      {
+         return _repository.GetByIdAsync(studyId);
       }
    }
 }

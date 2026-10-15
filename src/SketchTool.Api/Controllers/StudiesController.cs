@@ -18,6 +18,21 @@ namespace SketchTool.Api.Controllers
       public async Task<ActionResult>  Create([FromBody] CreateStudyRequest request)
       {
          var study = await _studyService.CreateAsync(request);
+         return CreatedAtAction(
+          nameof(GetById),
+          new { id = study.Id },
+          study);
+      }
+
+      [HttpGet("{id}")]
+      public async Task<ActionResult> GetById([FromRoute] Guid id)
+      {
+         var study = await _studyService.GetByIdAsync(id);
+         if (study == null)
+         {
+            return NotFound();
+         }
+
          return Ok(study);
       }
    }
